@@ -1,6 +1,6 @@
 package dev.ticTacToeGame.test;
 
 public class test2 {
-	// test
+	// test 2
 
 }
