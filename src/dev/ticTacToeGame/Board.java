@@ -3,11 +3,14 @@ package dev.ticTacToeGame;
 import java.lang.reflect.Array;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.effect.Light.Point;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -15,12 +18,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Board extends Application {
 
 	public static int i = 1;
 
+	public static boolean closeGame = false;
+	
+	Button button = new Button();
+	
 	Rectangle rectangle = new Rectangle();
 	// Creating a Group object
 	Group root = new Group();
@@ -42,26 +50,97 @@ public class Board extends Application {
 
 		// Displaying the contents of the stage
 		stage.show();
-
+		
 		scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
 				handleMouseClick(mouseEvent);
 			}
 		});
+		
+		button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	stage.close();
+            }
+        });
 
+	}
+
+	private boolean available(double sceneX, double sceneY) {
+
+		int x = 0;
+		int y = 0;
+
+		if ((sceneX < 200 && sceneY < 200) && (sceneX > 0 && sceneY > 0)) {
+			x = 0;
+			y = 0;
+		}
+
+		if ((sceneX < 400 && sceneY < 200) && (sceneX > 200 && sceneY > 0)) {
+			x = 0;
+			y = 1;
+		}
+
+		if ((sceneX < 600 && sceneY < 200) && (sceneX > 400 && sceneY > 0)) {
+			x = 0;
+			y = 2;
+		}
+
+		if ((sceneX < 200 && sceneY < 400) && (sceneX > 0 && sceneY > 200)) {
+			x = 1;
+			y = 0;
+		}
+
+		if ((sceneX < 400 && sceneY < 400) && (sceneX > 200 && sceneY > 200)) {
+			x = 1;
+			y = 1;
+		}
+
+		if ((sceneX < 600 && sceneY < 400) && (sceneX > 400 && sceneY > 200)) {
+			x = 1;
+			y = 2;
+		}
+
+		if ((sceneX < 200 && sceneY < 600) && (sceneX > 0 && sceneY > 400)) {
+			x = 2;
+			y = 0;
+		}
+
+		if ((sceneX < 400 && sceneY < 600) && (sceneX > 200 && sceneY > 400)) {
+			x = 2;
+			y = 1;
+		}
+
+		if ((sceneX < 600 && sceneY < 600) && (sceneX > 400 && sceneY > 400)) {
+			x = 2;
+			y = 2;
+		}
+
+		if (grid[x][y] != ' ')
+			return false;
+		else
+			return true;
 	}
 
 	private void handleMouseClick(MouseEvent t) {
 
-		if (i == 1) {
-			Image image = new Image("gfx/circle.png");
-			scene.setCursor(new ImageCursor(image, image.getWidth() / 2, image.getHeight() / 2));
-			i--;
-		} else {
-			Image image = new Image("gfx/cross.png");
-			scene.setCursor(new ImageCursor(image, image.getWidth() / 2, image.getHeight() / 2));
-			i++;
+		if (closeGame)
+		  return;
+		
+		if ((t.getSceneX() < 600 && t.getSceneY() < 600) && (t.getSceneX() > 0 && t.getSceneY() > 0)) {
+
+			if (available(t.getSceneX(), t.getSceneY())) {
+				if (i == 1) {
+					Image image = new Image("gfx/circle.png");
+					scene.setCursor(new ImageCursor(image, image.getWidth() / 2, image.getHeight() / 2));
+					i--;
+				} else {
+					Image image = new Image("gfx/cross.png");
+					scene.setCursor(new ImageCursor(image, image.getWidth() / 2, image.getHeight() / 2));
+					i++;
+				}
+			}
 		}
 
 		if ((t.getSceneX() <= 200 && t.getSceneY() <= 200) && (t.getSceneX() > 0 && t.getSceneY() > 0)
@@ -93,8 +172,8 @@ public class Board extends Application {
 				grid[0][1] = 'O';
 			}
 		}
-		
-		if ((t.getSceneX() < 600 && t.getSceneY() < 200) && (t.getSceneX() > 200 && t.getSceneY() > 0)
+
+		if ((t.getSceneX() < 600 && t.getSceneY() < 200) && (t.getSceneX() > 400 && t.getSceneY() > 0)
 				&& grid[0][2] == ' ') {
 			System.out.println(t.getSceneX());
 			if (i == 0) {
@@ -108,7 +187,7 @@ public class Board extends Application {
 				grid[0][2] = 'O';
 			}
 		}
-		
+
 		if ((t.getSceneX() < 200 && t.getSceneY() < 400) && (t.getSceneX() > 0 && t.getSceneY() > 200)
 				&& grid[1][0] == ' ') {
 			System.out.println(t.getSceneX());
@@ -123,8 +202,8 @@ public class Board extends Application {
 				grid[1][0] = 'O';
 			}
 		}
-		
-		if ((t.getSceneX() < 400 && t.getSceneY() < 400) && (t.getSceneX() > 0 && t.getSceneY() > 200)
+
+		if ((t.getSceneX() < 400 && t.getSceneY() < 400) && (t.getSceneX() > 200 && t.getSceneY() > 200)
 				&& grid[1][1] == ' ') {
 			System.out.println(t.getSceneX());
 			if (i == 0) {
@@ -138,23 +217,151 @@ public class Board extends Application {
 				grid[1][1] = 'O';
 			}
 		}
-		
-		winner();
+
+		if ((t.getSceneX() < 600 && t.getSceneY() < 400) && (t.getSceneX() > 400 && t.getSceneY() > 200)
+				&& grid[1][2] == ' ') {
+			System.out.println(t.getSceneX());
+			if (i == 0) {
+				/* cross 2,2 */
+				root.getChildren().add(drawX(420, 220, 600, 400));
+				root.getChildren().add(drawX(600, 220, 420, 400));
+				grid[1][2] = 'X';
+			} else {
+				/* circle 2,3 */
+				root.getChildren().add(drawO(510, 310, 90));
+				grid[1][2] = 'O';
+			}
+		}
+
+		if ((t.getSceneX() < 200 && t.getSceneY() < 600) && (t.getSceneX() > 0 && t.getSceneY() > 400)
+				&& grid[2][0] == ' ') {
+			System.out.println(t.getSceneX());
+			if (i == 0) {
+				/* cross 3,1 */
+				root.getChildren().add(drawX(20, 420, 200, 600));
+				root.getChildren().add(drawX(200, 420, 20, 600));
+				grid[2][0] = 'X';
+			} else {
+				/* circle 3,1 */
+				root.getChildren().add(drawO(110, 510, 90));
+				grid[2][0] = 'O';
+			}
+		}
+
+		if ((t.getSceneX() < 400 && t.getSceneY() < 600) && (t.getSceneX() > 200 && t.getSceneY() > 400)
+				&& grid[2][1] == ' ') {
+			System.out.println(t.getSceneX());
+			if (i == 0) {
+				/* cross 3,2 */
+				root.getChildren().add(drawX(220, 420, 400, 600));
+				root.getChildren().add(drawX(400, 420, 220, 600));
+				grid[2][1] = 'X';
+			} else {
+				/* circle 3,2 */
+				root.getChildren().add(drawO(310, 510, 90));
+				grid[2][1] = 'O';
+			}
+		}
+
+		if ((t.getSceneX() < 600 && t.getSceneY() < 600) && (t.getSceneX() > 400 && t.getSceneY() > 400)
+				&& grid[2][2] == ' ') {
+			System.out.println(t.getSceneX());
+			if (i == 0) {
+				/* cross 3,3 */
+				root.getChildren().add(drawX(420, 420, 600, 600));
+				root.getChildren().add(drawX(600, 420, 420, 600));
+				grid[2][2] = 'X';
+			} else {
+				/* circle 3,3 */
+				root.getChildren().add(drawO(510, 510, 90));
+				grid[2][2] = 'O';
+			}
+		}
+
+		if (!closeGame)
+		  winner('X');
+		if (!closeGame)
+		  winner('O');
 	}
 
-	public void winner() {
-		
-		if (grid[0][0] == 'X' && grid[0][1] == 'X' && grid[0][2] == 'X') {
-			System.out.println("X winner!!");
-			Line line = new Line(10, 110, 610, 110);
-			line.setStroke(Color.RED);
-			line.setStrokeWidth(10);
+	public void showWinner(char win) {
 
-			root.getChildren().add(line);
-		}
-		
+		button.setLayoutX(210);
+	    button.setLayoutY(250);
+	    button.setPrefWidth(200);
+	    button.setPrefHeight(50);
+	    button.setFont(Font.font ("Verdana", 20));
+		root.getChildren().add(button);
+		button.setText(win + " is the winner!");
+		closeGame = true;
 	}
 	
+	public void winner(char piece) {
+
+		if (grid[0][0] == piece && grid[0][1] == piece && grid[0][2] == piece) {
+			Line line = new Line(10, 110, 610, 110);
+			line.setStroke(Color.RED);
+			line.setStrokeWidth(5);
+			root.getChildren().add(line);
+			showWinner(piece);
+		}
+		if (grid[1][0] == piece && grid[1][1] == piece && grid[1][2] == piece) {
+			Line line = new Line(10, 310, 610, 310);
+			line.setStroke(Color.RED);
+			line.setStrokeWidth(5);
+			root.getChildren().add(line);
+			showWinner(piece);
+		}
+
+		if (grid[2][0] == piece && grid[2][1] == piece && grid[2][2] == piece) {
+			Line line = new Line(10, 510, 610, 510);
+			line.setStroke(Color.RED);
+			line.setStrokeWidth(5);
+			root.getChildren().add(line);
+			showWinner(piece);
+		}
+
+		if (grid[0][0] == piece && grid[1][0] == piece && grid[2][0] == piece) {
+			Line line = new Line(110, 10, 110, 610);
+			line.setStroke(Color.RED);
+			line.setStrokeWidth(5);
+			root.getChildren().add(line);
+			showWinner(piece);
+		}
+		if (grid[0][1] == piece && grid[1][1] == piece && grid[2][1] == piece) {
+			Line line = new Line(310, 10, 310, 610);
+			line.setStroke(Color.RED);
+			line.setStrokeWidth(5);
+			root.getChildren().add(line);
+			showWinner(piece);
+		}
+
+		if (grid[0][2] == piece && grid[1][2] == piece && grid[2][2] == piece) {
+			Line line = new Line(510, 10, 510, 610);
+			line.setStroke(Color.RED);
+			line.setStrokeWidth(5);
+			root.getChildren().add(line);
+			showWinner(piece);
+		}
+
+		if (grid[0][0] == piece && grid[1][1] == piece && grid[2][2] == piece) {
+			Line line = new Line(20, 20, 600, 600);
+			line.setStroke(Color.RED);
+			line.setStrokeWidth(5);
+			root.getChildren().add(line);
+			showWinner(piece);
+		}
+
+		if (grid[2][0] == piece && grid[1][1] == piece && grid[0][2] == piece) {
+			Line line = new Line(600, 20, 20, 600);
+			line.setStroke(Color.RED);
+			line.setStrokeWidth(5);
+			root.getChildren().add(line);
+			showWinner(piece);
+		}
+
+	}
+
 	public Line drawX(int a, int b, int c, int d) {
 
 		Line cross1 = new Line(a, b, c, d);
@@ -205,7 +412,6 @@ public class Board extends Application {
 				grid[i][j] = ' ';
 			}
 		}
-		Game game = new Game();
 		launch(args);
 	}
 
