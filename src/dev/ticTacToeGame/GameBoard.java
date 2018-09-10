@@ -13,7 +13,6 @@ public class GameBoard {
 	Scene board;
 	
 	public GameBoard(Group root) {
-		
 	
 		this.root = root;
 	}

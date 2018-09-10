@@ -63,7 +63,6 @@ public class Board extends Application {
 			}
 		});
 		
-		
 		button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

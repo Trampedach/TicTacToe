@@ -10,7 +10,6 @@ public class GameMenu {
 	Group root;
 	Scene menu;
 	
-	
 	public GameMenu(Group root) {
 		
 		this.root = root;
