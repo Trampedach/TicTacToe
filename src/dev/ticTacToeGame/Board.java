@@ -1,19 +1,16 @@
 package dev.ticTacToeGame;
 
-import java.lang.reflect.Array;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.effect.Light.Point;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -29,23 +26,31 @@ public class Board extends Application {
 	
 	Button button = new Button();
 	
-	Rectangle rectangle = new Rectangle();
 	// Creating a Group object
-	Group root = new Group();
+	Group root;
 	// Creating a scene object
-	Scene scene = new Scene(root, 620, 620, Color.WHITE);
-
+	Scene scene;
+//	Scene scene;
+	
 	public static char[][] grid = new char[3][3];
 
 	@Override
 	public void start(Stage stage) throws Exception {
 
-		drawBoard();
+//		drawBoard();
 
 		// Setting title to the Stage
 		stage.setTitle("Tic Tac Toe");
-
+		
 		// Adding scene to the stage
+		
+//		GameMenu menu = new GameMenu();
+		GameBoard board = new GameBoard(new Group());
+		
+		//scene = menu.drawLine();
+		scene = board.drawBoard();
+		
+		root = board.root;
 		stage.setScene(scene);
 
 		// Displaying the contents of the stage
@@ -62,6 +67,12 @@ public class Board extends Application {
             @Override
             public void handle(ActionEvent event) {
             	stage.close();
+            	GameMenu menu = new GameMenu(new Group());
+            	root = menu.root;
+            	Stage stage = new Stage();
+            	scene = menu.drawLine();
+            	stage.setScene(scene);
+            	stage.show();
             }
         });
 
@@ -145,7 +156,6 @@ public class Board extends Application {
 
 		if ((t.getSceneX() <= 200 && t.getSceneY() <= 200) && (t.getSceneX() > 0 && t.getSceneY() > 0)
 				&& grid[0][0] == ' ') {
-			System.out.println(t.getSceneX());
 			if (i == 0) {
 				/* cross 1,1 */
 				root.getChildren().add(drawX(20, 20, 200, 200));
@@ -160,7 +170,6 @@ public class Board extends Application {
 
 		if ((t.getSceneX() < 400 && t.getSceneY() < 200) && (t.getSceneX() > 200 && t.getSceneY() > 0)
 				&& grid[0][1] == ' ') {
-			System.out.println(t.getSceneX());
 			if (i == 0) {
 				/* cross 1,2 */
 				root.getChildren().add(drawX(220, 20, 400, 200));
@@ -175,7 +184,6 @@ public class Board extends Application {
 
 		if ((t.getSceneX() < 600 && t.getSceneY() < 200) && (t.getSceneX() > 400 && t.getSceneY() > 0)
 				&& grid[0][2] == ' ') {
-			System.out.println(t.getSceneX());
 			if (i == 0) {
 				/* cross 1,3 */
 				root.getChildren().add(drawX(420, 20, 600, 200));
@@ -190,7 +198,6 @@ public class Board extends Application {
 
 		if ((t.getSceneX() < 200 && t.getSceneY() < 400) && (t.getSceneX() > 0 && t.getSceneY() > 200)
 				&& grid[1][0] == ' ') {
-			System.out.println(t.getSceneX());
 			if (i == 0) {
 				/* cross 2,1 */
 				root.getChildren().add(drawX(20, 220, 200, 400));
@@ -205,7 +212,6 @@ public class Board extends Application {
 
 		if ((t.getSceneX() < 400 && t.getSceneY() < 400) && (t.getSceneX() > 200 && t.getSceneY() > 200)
 				&& grid[1][1] == ' ') {
-			System.out.println(t.getSceneX());
 			if (i == 0) {
 				/* cross 2,2 */
 				root.getChildren().add(drawX(220, 220, 400, 400));
@@ -220,7 +226,6 @@ public class Board extends Application {
 
 		if ((t.getSceneX() < 600 && t.getSceneY() < 400) && (t.getSceneX() > 400 && t.getSceneY() > 200)
 				&& grid[1][2] == ' ') {
-			System.out.println(t.getSceneX());
 			if (i == 0) {
 				/* cross 2,2 */
 				root.getChildren().add(drawX(420, 220, 600, 400));
@@ -235,7 +240,6 @@ public class Board extends Application {
 
 		if ((t.getSceneX() < 200 && t.getSceneY() < 600) && (t.getSceneX() > 0 && t.getSceneY() > 400)
 				&& grid[2][0] == ' ') {
-			System.out.println(t.getSceneX());
 			if (i == 0) {
 				/* cross 3,1 */
 				root.getChildren().add(drawX(20, 420, 200, 600));
@@ -250,7 +254,6 @@ public class Board extends Application {
 
 		if ((t.getSceneX() < 400 && t.getSceneY() < 600) && (t.getSceneX() > 200 && t.getSceneY() > 400)
 				&& grid[2][1] == ' ') {
-			System.out.println(t.getSceneX());
 			if (i == 0) {
 				/* cross 3,2 */
 				root.getChildren().add(drawX(220, 420, 400, 600));
@@ -265,7 +268,6 @@ public class Board extends Application {
 
 		if ((t.getSceneX() < 600 && t.getSceneY() < 600) && (t.getSceneX() > 400 && t.getSceneY() > 400)
 				&& grid[2][2] == ' ') {
-			System.out.println(t.getSceneX());
 			if (i == 0) {
 				/* cross 3,3 */
 				root.getChildren().add(drawX(420, 420, 600, 600));
@@ -382,6 +384,7 @@ public class Board extends Application {
 	public void drawBoard() {
 
 		// Setting the properties of the rectangle
+		Rectangle rectangle = new Rectangle();
 		rectangle.setX(10);
 		rectangle.setY(10);
 		rectangle.setWidth(600);
