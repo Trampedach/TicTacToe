@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -31,6 +30,7 @@ public class Board extends Application {
 	// Creating a scene object
 	Scene scene;
 //	Scene scene;
+	GameBoard board;
 	
 	public static char[][] grid = new char[3][3];
 
@@ -39,41 +39,52 @@ public class Board extends Application {
 
 //		drawBoard();
 
-		// Setting title to the Stage
-		stage.setTitle("Tic Tac Toe");
+		GameMenu menu = new GameMenu(new Group());
+		board = new GameBoard(new Group());
 		
-		// Adding scene to the stage
-		
-//		GameMenu menu = new GameMenu();
-		GameBoard board = new GameBoard(new Group());
-		
-		//scene = menu.drawLine();
-		scene = board.drawBoard();
-		
-		root = board.root;
-		stage.setScene(scene);
-
-		// Displaying the contents of the stage
-		stage.show();
-		
-		
-		scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent mouseEvent) {
-				handleMouseClick(mouseEvent);
-			}
-		});
+    	root = menu.root;
+    	scene = menu.drawLine();
+    	stage.setScene(scene);
+    	stage.show();
 		
 		button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	stage.close();
-            	GameMenu menu = new GameMenu(new Group());
+//            	stage.close();
             	root = menu.root;
             	Stage stage = new Stage();
             	scene = menu.drawLine();
             	stage.setScene(scene);
             	stage.show();
+            }
+        });
+		
+		menu.startButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	// Setting title to the Stage
+        		stage.setTitle("Tic Tac Toe");
+        		
+        		// Adding scene to the stage
+        		
+//        		GameMenu menu = new GameMenu();
+        		
+        		//scene = menu.drawLine();
+//        		board = new GameBoard(new Group());
+        		scene = board.drawBoard();
+        		
+        		root = board.root;
+        		stage.setScene(scene);
+
+        		// Displaying the contents of the stage
+        		stage.show();
+        		
+        		scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+        			@Override
+        			public void handle(MouseEvent mouseEvent) {
+        				handleMouseClick(mouseEvent);
+        			}
+        		});
             }
         });
 
