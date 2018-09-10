@@ -1,5 +1,6 @@
 package dev.ticTacToeGame;
 
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -24,23 +26,31 @@ public class Board extends Application {
 	
 	Button button = new Button();
 	
-	Rectangle rectangle = new Rectangle();
 	// Creating a Group object
-	Group root = new Group();
+	Group root;
 	// Creating a scene object
-	Scene scene = new Scene(root, 620, 620, Color.WHITE);
-
+	Scene scene;
+//	Scene scene;
+	
 	public static char[][] grid = new char[3][3];
 
 	@Override
 	public void start(Stage stage) throws Exception {
 
-		drawBoard();
+//		drawBoard();
 
 		// Setting title to the Stage
 		stage.setTitle("Tic Tac Toe");
-
+		
 		// Adding scene to the stage
+		
+//		GameMenu menu = new GameMenu();
+		GameBoard board = new GameBoard(new Group());
+		
+		//scene = menu.drawLine();
+		scene = board.drawBoard();
+		
+		root = board.root;
 		stage.setScene(scene);
 
 		// Displaying the contents of the stage
@@ -58,6 +68,12 @@ public class Board extends Application {
             @Override
             public void handle(ActionEvent event) {
             	stage.close();
+            	GameMenu menu = new GameMenu(new Group());
+            	root = menu.root;
+            	Stage stage = new Stage();
+            	scene = menu.drawLine();
+            	stage.setScene(scene);
+            	stage.show();
             }
         });
 
@@ -369,6 +385,7 @@ public class Board extends Application {
 	public void drawBoard() {
 
 		// Setting the properties of the rectangle
+		Rectangle rectangle = new Rectangle();
 		rectangle.setX(10);
 		rectangle.setY(10);
 		rectangle.setWidth(600);
