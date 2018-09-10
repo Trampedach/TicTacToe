@@ -14,6 +14,7 @@ public class GameBoard {
 	
 	public GameBoard(Group root) {
 		
+	
 		this.root = root;
 	}
 	
