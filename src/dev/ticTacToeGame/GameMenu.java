@@ -7,6 +7,7 @@ import javafx.scene.shape.Line;
 
 public class GameMenu {
 	
+	
 	Group root;
 	Scene menu;
 	

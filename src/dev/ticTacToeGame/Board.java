@@ -56,6 +56,7 @@ public class Board extends Application {
 		// Displaying the contents of the stage
 		stage.show();
 		
+		
 		scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {

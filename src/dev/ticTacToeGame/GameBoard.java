@@ -9,8 +9,10 @@ import javafx.scene.shape.Rectangle;
 
 public class GameBoard {
 
+	
 	Group root;
 	Scene board;
+	
 	
 	public GameBoard(Group root) {
 	
