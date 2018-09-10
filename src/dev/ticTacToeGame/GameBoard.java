@@ -8,20 +8,20 @@ import javafx.scene.shape.Rectangle;
 
 public class GameBoard {
 
-	
 	Group root;
 	Scene board;
-	
-	
+
 	public GameBoard(Group root) {
-	
+
 		this.root = root;
 	}
-	
+
 	public Scene drawBoard() {
 
 //		root = new Group();
-		board = new Scene(root, 620, 620, Color.WHITE);
+		if (board == null) {
+			board = new Scene(root, 620, 620, Color.WHITE);
+		}
 		Rectangle rectangle = new Rectangle();
 		// Setting the properties of the rectangle
 		rectangle.setX(10);
@@ -47,5 +47,5 @@ public class GameBoard {
 		root.getChildren().addAll(rectangle, line1, line2, line3, line4);
 		return (board);
 	}
-	
+
 }

@@ -1,6 +1,5 @@
 package dev.ticTacToeGame;
 
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,16 +21,17 @@ public class Board extends Application {
 	public static int i = 1;
 
 	public static boolean closeGame = false;
-	
+
 	Button button = new Button();
-	
+
 	// Creating a Group object
 	Group root;
 	// Creating a scene object
-	Scene scene;
+	Scene menuScene;
+	Scene boardScene;
 //	Scene scene;
 	GameBoard board;
-	
+
 	public static char[][] grid = new char[3][3];
 
 	@Override
@@ -41,53 +41,75 @@ public class Board extends Application {
 
 		GameMenu menu = new GameMenu(new Group());
 		board = new GameBoard(new Group());
-		
-    	root = menu.root;
-    	scene = menu.drawLine();
-    	stage.setScene(scene);
-    	stage.show();
-		
+
+//    	root = menu.root;
+		menuScene = menu.drawLine();
+		drawMenu(menu.root, menuScene, stage);
+//    	stage.setScene(scene);
+//    	stage.show();
+
 		button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-//            	stage.close();
-            	root = menu.root;
-            	Stage stage = new Stage();
-            	scene = menu.drawLine();
-            	stage.setScene(scene);
-            	stage.show();
-            }
-        });
-		
+			@Override
+			public void handle(ActionEvent event) {
+				stage.close();
+				menuScene = menu.drawLine();
+				drawMenu(menu.root, menuScene, stage);
+//            	root = menu.root;
+//            	Stage stage = new Stage();
+//            	scene = menu.drawLine();
+//            	stage.setScene(scene);
+//            	stage.show();
+			}
+		});
+
 		menu.startButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	// Setting title to the Stage
-        		stage.setTitle("Tic Tac Toe");
-        		
-        		// Adding scene to the stage
-        		
+			@Override
+			public void handle(ActionEvent event) {
+				stage.close();
+				// Setting title to the Stage
+				stage.setTitle("Tic Tac Toe");
+
+				// Adding scene to the stage
+
 //        		GameMenu menu = new GameMenu();
-        		
-        		//scene = menu.drawLine();
+
+				// scene = menu.drawLine();
 //        		board = new GameBoard(new Group());
-        		scene = board.drawBoard();
-        		
-        		root = board.root;
-        		stage.setScene(scene);
+				if (closeGame) {
+					resetGrid();
+					root.getChildren().remove(button);
+					closeGame = false;
+				}
 
-        		// Displaying the contents of the stage
-        		stage.show();
-        		
-        		scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-        			@Override
-        			public void handle(MouseEvent mouseEvent) {
-        				handleMouseClick(mouseEvent);
-        			}
-        		});
-            }
-        });
+				boardScene = board.drawBoard();
 
+				root = board.root;
+				stage.setScene(boardScene);
+
+				// Displaying the contents of the stage
+				stage.show();
+
+				boardScene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent mouseEvent) {
+						handleMouseClick(mouseEvent);
+					}
+				});
+			}
+		});
+		
+		menu.exitButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				stage.close();
+			}
+		});
+
+	}
+
+	public void drawMenu(Group root, Scene menu, Stage stage) {
+		stage.setScene(menu);
+		stage.show();
 	}
 
 	private boolean available(double sceneX, double sceneY) {
@@ -149,18 +171,18 @@ public class Board extends Application {
 	private void handleMouseClick(MouseEvent t) {
 
 		if (closeGame)
-		  return;
-		
+			return;
+
 		if ((t.getSceneX() < 600 && t.getSceneY() < 600) && (t.getSceneX() > 0 && t.getSceneY() > 0)) {
 
 			if (available(t.getSceneX(), t.getSceneY())) {
 				if (i == 1) {
 					Image image = new Image("gfx/circle.png");
-					scene.setCursor(new ImageCursor(image, image.getWidth() / 2, image.getHeight() / 2));
+					boardScene.setCursor(new ImageCursor(image, image.getWidth() / 2, image.getHeight() / 2));
 					i--;
 				} else {
 					Image image = new Image("gfx/cross.png");
-					scene.setCursor(new ImageCursor(image, image.getWidth() / 2, image.getHeight() / 2));
+					boardScene.setCursor(new ImageCursor(image, image.getWidth() / 2, image.getHeight() / 2));
 					i++;
 				}
 			}
@@ -293,23 +315,23 @@ public class Board extends Application {
 		}
 
 		if (!closeGame)
-		  winner('X');
+			winner('X');
 		if (!closeGame)
-		  winner('O');
+			winner('O');
 	}
 
 	public void showWinner(char win) {
 
 		button.setLayoutX(210);
-	    button.setLayoutY(250);
-	    button.setPrefWidth(200);
-	    button.setPrefHeight(50);
-	    button.setFont(Font.font ("Verdana", 20));
+		button.setLayoutY(250);
+		button.setPrefWidth(200);
+		button.setPrefHeight(50);
+		button.setFont(Font.font("Verdana", 20));
 		root.getChildren().add(button);
 		button.setText(win + " is the winner!");
 		closeGame = true;
 	}
-	
+
 	public void winner(char piece) {
 
 		if (grid[0][0] == piece && grid[0][1] == piece && grid[0][2] == piece) {
@@ -420,13 +442,23 @@ public class Board extends Application {
 		root.getChildren().addAll(rectangle, line1, line2, line3, line4);
 	}
 
-	public static void main(String args[]) {
+	public static void resetGrid() {
 
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid.length; j++) {
 				grid[i][j] = ' ';
 			}
 		}
+	}
+
+	public static void main(String args[]) {
+
+		resetGrid();
+//		for (int i = 0; i < grid.length; i++) {
+//			for (int j = 0; j < grid.length; j++) {
+//				grid[i][j] = ' ';
+//			}
+//		}
 		launch(args);
 	}
 
