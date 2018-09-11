@@ -20,15 +20,16 @@ public class Board extends Application {
 
 	public static int i = 1;
 
-	public static boolean closeGame = false;
+	public static boolean closeGame   = false;
+	public static int tilesUsed       = 0;
 
 	Button button = new Button();
 
 	// Creating a Group object
-	Group root;
+	Group root = new Group();
 	// Creating a scene object
 	Scene menuScene;
-	Scene boardScene;
+	Scene boardScene = new Scene(root, 620, 620, Color.WHITE);
 //	Scene scene;
 	GameBoard board;
 
@@ -40,7 +41,8 @@ public class Board extends Application {
 //		drawBoard();
 
 		GameMenu menu = new GameMenu(new Group());
-		board = new GameBoard(new Group());
+		board = new GameBoard(root, boardScene);
+//		board = new GameBoard(new Group());
 
 //    	root = menu.root;
 		menuScene = menu.drawLine();
@@ -77,6 +79,7 @@ public class Board extends Application {
 //        		board = new GameBoard(new Group());
 				if (closeGame) {
 					resetGrid();
+					tilesUsed = 0;
 					root.getChildren().remove(button);
 					closeGame = false;
 				}
@@ -89,12 +92,19 @@ public class Board extends Application {
 				// Displaying the contents of the stage
 				stage.show();
 
-				boardScene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent mouseEvent) {
-						handleMouseClick(mouseEvent);
-					}
-				});
+//				boardScene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+//					@Override
+//					public void handle(MouseEvent mouseEvent) {
+//						handleMouseClick(mouseEvent);
+//					}
+//				});
+			}
+		});
+		
+		boardScene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				handleMouseClick(mouseEvent);
 			}
 		});
 		
@@ -195,10 +205,12 @@ public class Board extends Application {
 				root.getChildren().add(drawX(20, 20, 200, 200));
 				root.getChildren().add(drawX(200, 20, 20, 200));
 				grid[0][0] = 'X';
+				tilesUsed += 1;
 			} else {
 				/* circle 1,1 */
 				root.getChildren().add(drawO(110, 110, 90));
 				grid[0][0] = 'O';
+				tilesUsed += 1;
 			}
 		}
 
@@ -209,10 +221,12 @@ public class Board extends Application {
 				root.getChildren().add(drawX(220, 20, 400, 200));
 				root.getChildren().add(drawX(400, 20, 220, 200));
 				grid[0][1] = 'X';
+				tilesUsed += 1;
 			} else {
 				/* circle 1,2 */
 				root.getChildren().add(drawO(310, 110, 90));
 				grid[0][1] = 'O';
+				tilesUsed += 1;
 			}
 		}
 
@@ -223,10 +237,12 @@ public class Board extends Application {
 				root.getChildren().add(drawX(420, 20, 600, 200));
 				root.getChildren().add(drawX(600, 20, 420, 200));
 				grid[0][2] = 'X';
+				tilesUsed += 1;
 			} else {
 				/* circle 1,3 */
 				root.getChildren().add(drawO(510, 110, 90));
 				grid[0][2] = 'O';
+				tilesUsed += 1;
 			}
 		}
 
@@ -237,10 +253,12 @@ public class Board extends Application {
 				root.getChildren().add(drawX(20, 220, 200, 400));
 				root.getChildren().add(drawX(200, 220, 20, 400));
 				grid[1][0] = 'X';
+				tilesUsed += 1;
 			} else {
 				/* circle 2,1 */
 				root.getChildren().add(drawO(110, 310, 90));
 				grid[1][0] = 'O';
+				tilesUsed += 1;
 			}
 		}
 
@@ -251,10 +269,12 @@ public class Board extends Application {
 				root.getChildren().add(drawX(220, 220, 400, 400));
 				root.getChildren().add(drawX(400, 220, 220, 400));
 				grid[1][1] = 'X';
+				tilesUsed += 1;
 			} else {
 				/* circle 2,2 */
 				root.getChildren().add(drawO(310, 310, 90));
 				grid[1][1] = 'O';
+				tilesUsed += 1;
 			}
 		}
 
@@ -265,10 +285,12 @@ public class Board extends Application {
 				root.getChildren().add(drawX(420, 220, 600, 400));
 				root.getChildren().add(drawX(600, 220, 420, 400));
 				grid[1][2] = 'X';
+				tilesUsed += 1;
 			} else {
 				/* circle 2,3 */
 				root.getChildren().add(drawO(510, 310, 90));
 				grid[1][2] = 'O';
+				tilesUsed += 1;
 			}
 		}
 
@@ -279,10 +301,12 @@ public class Board extends Application {
 				root.getChildren().add(drawX(20, 420, 200, 600));
 				root.getChildren().add(drawX(200, 420, 20, 600));
 				grid[2][0] = 'X';
+				tilesUsed += 1;
 			} else {
 				/* circle 3,1 */
 				root.getChildren().add(drawO(110, 510, 90));
 				grid[2][0] = 'O';
+				tilesUsed += 1;
 			}
 		}
 
@@ -293,10 +317,12 @@ public class Board extends Application {
 				root.getChildren().add(drawX(220, 420, 400, 600));
 				root.getChildren().add(drawX(400, 420, 220, 600));
 				grid[2][1] = 'X';
+				tilesUsed += 1;
 			} else {
 				/* circle 3,2 */
 				root.getChildren().add(drawO(310, 510, 90));
 				grid[2][1] = 'O';
+				tilesUsed += 1;
 			}
 		}
 
@@ -307,10 +333,12 @@ public class Board extends Application {
 				root.getChildren().add(drawX(420, 420, 600, 600));
 				root.getChildren().add(drawX(600, 420, 420, 600));
 				grid[2][2] = 'X';
+				tilesUsed += 1;
 			} else {
 				/* circle 3,3 */
 				root.getChildren().add(drawO(510, 510, 90));
 				grid[2][2] = 'O';
+				tilesUsed += 1;
 			}
 		}
 
@@ -322,79 +350,108 @@ public class Board extends Application {
 
 	public void showWinner(char win) {
 
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid.length; j++) {
+				System.out.println(grid[i][j]);
+			}
+		}
+		System.out.println("closeGame " + closeGame);
+		
+		System.out.println("win " + win);
+		
+		System.out.println("tilesUsed " + tilesUsed);
+		closeGame = true;
 		button.setLayoutX(210);
 		button.setLayoutY(250);
 		button.setPrefWidth(200);
 		button.setPrefHeight(50);
 		button.setFont(Font.font("Verdana", 20));
+		root.getChildren().remove(button);
+		if (win == 'N')
+			button.setText("No winner!");
+		else
+			button.setText(win + " is the winner!");
 		root.getChildren().add(button);
-		button.setText(win + " is the winner!");
-		closeGame = true;
 	}
 
 	public void winner(char piece) {
 
-		if (grid[0][0] == piece && grid[0][1] == piece && grid[0][2] == piece) {
+		System.out.println("tjek winner " + tilesUsed);
+		
+
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid.length; j++) {
+				System.out.println(i + "," + j + " " + grid[i][j]);
+			}
+		}
+		
+		if ((grid[0][0] == piece) & (grid[0][1] == piece) & (grid[0][2] == piece)) {
 			Line line = new Line(10, 110, 610, 110);
 			line.setStroke(Color.RED);
 			line.setStrokeWidth(5);
 			root.getChildren().add(line);
 			showWinner(piece);
 		}
-		if (grid[1][0] == piece && grid[1][1] == piece && grid[1][2] == piece) {
+		else
+		if ((grid[1][0] == piece) & (grid[1][1] == piece) & (grid[1][2] == piece)) {
 			Line line = new Line(10, 310, 610, 310);
 			line.setStroke(Color.RED);
 			line.setStrokeWidth(5);
 			root.getChildren().add(line);
 			showWinner(piece);
 		}
-
-		if (grid[2][0] == piece && grid[2][1] == piece && grid[2][2] == piece) {
+		else
+		if ((grid[2][0] == piece) & (grid[2][1] == piece) & (grid[2][2] == piece)) {
 			Line line = new Line(10, 510, 610, 510);
 			line.setStroke(Color.RED);
 			line.setStrokeWidth(5);
 			root.getChildren().add(line);
 			showWinner(piece);
 		}
-
-		if (grid[0][0] == piece && grid[1][0] == piece && grid[2][0] == piece) {
+		else
+		if ((grid[0][0] == piece) & (grid[1][0] == piece) & (grid[2][0] == piece)) {
 			Line line = new Line(110, 10, 110, 610);
 			line.setStroke(Color.RED);
 			line.setStrokeWidth(5);
 			root.getChildren().add(line);
 			showWinner(piece);
 		}
-		if (grid[0][1] == piece && grid[1][1] == piece && grid[2][1] == piece) {
+		else
+		if ((grid[0][1] == piece) & (grid[1][1] == piece) & (grid[2][1] == piece)) {
 			Line line = new Line(310, 10, 310, 610);
 			line.setStroke(Color.RED);
 			line.setStrokeWidth(5);
 			root.getChildren().add(line);
 			showWinner(piece);
 		}
-
-		if (grid[0][2] == piece && grid[1][2] == piece && grid[2][2] == piece) {
+		else
+		if ((grid[0][2] == piece) & (grid[1][2] == piece) & (grid[2][2] == piece)) {
 			Line line = new Line(510, 10, 510, 610);
 			line.setStroke(Color.RED);
 			line.setStrokeWidth(5);
 			root.getChildren().add(line);
 			showWinner(piece);
 		}
-
-		if (grid[0][0] == piece && grid[1][1] == piece && grid[2][2] == piece) {
+		else
+		if ((grid[0][0] == piece) & (grid[1][1] == piece) & (grid[2][2] == piece)) {
 			Line line = new Line(20, 20, 600, 600);
 			line.setStroke(Color.RED);
 			line.setStrokeWidth(5);
 			root.getChildren().add(line);
 			showWinner(piece);
 		}
-
-		if (grid[2][0] == piece && grid[1][1] == piece && grid[0][2] == piece) {
+		else
+		if ((grid[2][0] == piece) & (grid[1][1] == piece) & (grid[0][2] == piece)) {
 			Line line = new Line(600, 20, 20, 600);
 			line.setStroke(Color.RED);
 			line.setStrokeWidth(5);
 			root.getChildren().add(line);
 			showWinner(piece);
 		}
+		else
+		if (tilesUsed >= 9 & !closeGame & piece != 'X') 
+			showWinner('N');
+			
 
 	}
 

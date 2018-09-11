@@ -11,17 +11,18 @@ public class GameBoard {
 	Group root;
 	Scene board;
 
-	public GameBoard(Group root) {
+	public GameBoard(Group root, Scene board) {
 
 		this.root = root;
+		this.board = board;
 	}
 
 	public Scene drawBoard() {
 
 //		root = new Group();
-		if (board == null) {
-			board = new Scene(root, 620, 620, Color.WHITE);
-		}
+//		if (board == null) {
+//			board = new Scene(root, 620, 620, Color.WHITE);
+//		}
 		Rectangle rectangle = new Rectangle();
 		// Setting the properties of the rectangle
 		rectangle.setX(10);
