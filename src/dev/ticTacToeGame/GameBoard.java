@@ -19,10 +19,6 @@ public class GameBoard {
 
 	public Scene drawBoard() {
 
-//		root = new Group();
-//		if (board == null) {
-//			board = new Scene(root, 620, 620, Color.WHITE);
-//		}
 		Rectangle rectangle = new Rectangle();
 		// Setting the properties of the rectangle
 		rectangle.setX(10);

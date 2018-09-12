@@ -30,7 +30,6 @@ public class Board extends Application {
 	// Creating a scene object
 	Scene menuScene;
 	Scene boardScene = new Scene(root, 620, 620, Color.WHITE);
-//	Scene scene;
 	GameBoard board;
 
 	public static char[][] grid = new char[3][3];
@@ -38,17 +37,11 @@ public class Board extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 
-//		drawBoard();
-
 		GameMenu menu = new GameMenu(new Group());
 		board = new GameBoard(root, boardScene);
-//		board = new GameBoard(new Group());
 
-//    	root = menu.root;
 		menuScene = menu.drawLine();
 		drawMenu(menu.root, menuScene, stage);
-//    	stage.setScene(scene);
-//    	stage.show();
 
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -56,11 +49,6 @@ public class Board extends Application {
 				stage.close();
 				menuScene = menu.drawLine();
 				drawMenu(menu.root, menuScene, stage);
-//            	root = menu.root;
-//            	Stage stage = new Stage();
-//            	scene = menu.drawLine();
-//            	stage.setScene(scene);
-//            	stage.show();
 			}
 		});
 
@@ -71,12 +59,6 @@ public class Board extends Application {
 				// Setting title to the Stage
 				stage.setTitle("Tic Tac Toe");
 
-				// Adding scene to the stage
-
-//        		GameMenu menu = new GameMenu();
-
-				// scene = menu.drawLine();
-//        		board = new GameBoard(new Group());
 				if (closeGame) {
 					resetGrid();
 					tilesUsed = 0;
@@ -88,16 +70,13 @@ public class Board extends Application {
 
 				root = board.root;
 				stage.setScene(boardScene);
+				Image image = new Image("gfx/cross.png");
+				boardScene.setCursor(new ImageCursor(image, image.getWidth() / 2, image.getHeight() / 2));
+				i = 1;
 
 				// Displaying the contents of the stage
 				stage.show();
 
-//				boardScene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-//					@Override
-//					public void handle(MouseEvent mouseEvent) {
-//						handleMouseClick(mouseEvent);
-//					}
-//				});
 			}
 		});
 		
@@ -118,6 +97,10 @@ public class Board extends Application {
 	}
 
 	public void drawMenu(Group root, Scene menu, Stage stage) {
+		stage.setTitle("Tic Tac Toe");
+		stage.setResizable(false);
+//		stage.initStyle(StageStyle.UNDECORATED);
+		stage.getIcons().add(new Image("gfx/TicTacToe.png"));
 		stage.setScene(menu);
 		stage.show();
 	}
@@ -511,11 +494,6 @@ public class Board extends Application {
 	public static void main(String args[]) {
 
 		resetGrid();
-//		for (int i = 0; i < grid.length; i++) {
-//			for (int j = 0; j < grid.length; j++) {
-//				grid[i][j] = ' ';
-//			}
-//		}
 		launch(args);
 	}
 
